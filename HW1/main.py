@@ -140,7 +140,9 @@ for k in range(len(velocity)):
     
     x = np.linspace(0, tot_length, num=num_volumes[k])
 
-    plt.figure(facecolor='w', edgecolor='k')
+    plt.rcParams['font.family'] = 'serif'
+    plt.rcParams['mathtext.fontset'] = 'dejavuserif'
+    plt.figure(facecolor='w', edgecolor='k', dpi=200)
     plt.plot(x, phi, '-k', label='CDS')
     plt.plot(x, phi_exact, '-r', label='Analytical')
     plt.figlegend(loc='right', bbox_to_anchor=(0.4,0.2))
@@ -156,7 +158,7 @@ out_file.write(
                 '\\begin{table}[htbp]\n'+
                 '\t \centering\n'+
                 '\t \caption{Error values for each case.}\n'+
-                '\t \\begin{tabublar}{cc}\n'+
+                '\t \\begin{tabular}{cc}\n'+
                 '\t\t \\toprule\n'+
                 '\t\t Case & Error \\\ \n'+
                 '\t\t \midrule \n'+
