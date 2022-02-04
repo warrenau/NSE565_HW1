@@ -56,17 +56,55 @@
 \section{Methods}
 
 \begin{equation}
-    \int \limts_S \rho \overline{V} \phi \dot \overline{n} dS = \int\limits_S \Gamma \frac{\partial \phi}{\partial x} \dot \overline{n} dS + \int\limits_V q_{\phi} dV
+    \int\limits_S \rho \overline{u} \phi \cdot \overline{n} dS = \int\limits_S \Gamma \frac{\partial \phi}{\partial x} \cdot \overline{n} dS + \int\limits_V q_{\phi} dV
     \label{eq:transport}
 \end{equation}
+
+We can approximate the two surface integrals as follows:
+\begin{equation*}
+    \int\limits_S \rho \overline{u} \phi \cdot \overline{n} dS = \left( \rho\underline(u) S\phi \right)_{i+1} - \left( \rho\underline(u) S\phi \right)_{i-1}\:,
+\end{equation*}
+and
+\begin{equation*}
+    \int\limits_S \Gamma \frac{\partial \phi}{\partial x} \cdot \overline{n} dS = \left( \Gamma S \frac{\partial \phi}{\partial x} \right)_{i+1} - \left( \Gamma S \frac{\partial \phi}{\partial x} \right)_{i-1}\:.
+\end{equation*}
+We can approximate the volume integral as follows:
+\begin{equation*}
+    \int\limits_V q_{\phi} dV = \overline{q} V\:.
+\end{equation*}
+If we assume $S$ is constant our transport equation becomes:
+\begin{equation*}
+    \left( \rho\underline(u) \phi \right)_{i+1} - \left( \rho\underline(u) \phi \right)_{i-1} = \left( \Gamma \frac{\partial \phi}{\partial x} \right)_{i+1} - \left( \Gamma \frac{\partial \phi}{\partial x} \right)_{i-1} + \overline{q} V\:.
+\end{equation*}
+We can apply the Central Differencing Scheme approximations:
+\begin{align*}
+    \phi_{i+1} &= \frac{\phi_{I+1} + \phi_{I}}{2} & \phi_{i-1} &= \frac{\phi_{I-1} + \phi_{I}}{2} \\
+    \left(\frac{\partial \phi}{\partial x}\right)_{i+1} &= \frac{\phi_{I+1} - \phi_{I}}{\delta x} & \left(\frac{\partial \phi}{\partial x}\right)_{i-1} &= \frac{\phi_{I} - \phi_{I-1}}{\delta x}
+\end{align*}
+The transport equation now looks like:
+\begin{equation*}
+    \left(\frac{\rho \overline{u}}{2}\right)_{i+1} \left( \phi_{I+1} + \phi_{I} \right) - \left(\frac{\rho \overline{u}}{2}\right)_{i-1} \left( \phi_{I-1} + \phi_{I} \right) = \frac{\Gamma}{\Delta x} \left( \phi_{I+1} - \phi_{I} \right) - \frac{\Gamma}{\Delta x} \left( \phi_{I} - \phi_{I-1} \right) + \overline{q}_{I}\: \Delta x\:.
+\end{equation*}
+For this problem, the density and velocity are constant throughout the geometry. We can group terms and get the transport equation in a useful form to sovle.
+\begin{equation}
+    \left[ -\frac{\rho \overline{u}}{2} - \frac{\Gamma}{\Delta x} \right] \phi_{I-1} + \left[ \frac{2\Gamma}{\Delta x} \right] \phi_{I} + \left[ \frac{\rho \overline{u}}{2} - \frac{\Gamma}{\Delta x} \right] \phi_{I+1} = \overline{q}_{I}\: \Delta x
+    \label{eq:grouped}
+\end{equation}
+We can rewrite this equation as:
+\begin{equation}
+    a_{I}\phi_{I-1} + b_{I}\phi_{I} + c_{I}\phi_{I+1} = Q_{I}\:.
+    \label{eq:coef}
+\end{equation}
+This equation works for middle nodes, but the edge nodes do not have enough neighbor nodes. 
+
 
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 \section{Results}
     % plots
-    \Cref{fig:case1} shows the two solutions for Case 1: 5 control volumes and $\overline{V}=\SI{0.1}{\meter\per\second}$.
-    \Cref{fig:case2} shows the two solutions for Case 2: 5 control volumes and $\overline{V}=\SI{2.5}{\meter\per\second}$.
-    \Cref{fig:case3} shows the two solutions for Case 3: 20 control volumes and $\overline{V}=\SI{2.5}{\meter\per\second}$.
+    \Cref{fig:case1} shows the two solutions for Case 1: 5 control volumes and $\overline{u}=\SI{0.1}{\meter\per\second}$.
+    \Cref{fig:case2} shows the two solutions for Case 2: 5 control volumes and $\overline{u}=\SI{2.5}{\meter\per\second}$.
+    \Cref{fig:case3} shows the two solutions for Case 3: 20 control volumes and $\overline{u}=\SI{2.5}{\meter\per\second}$.
     \begin{figure}[htbp]
         \centering
         \includegraphics[width=\textwidth]{plots/graph_case1.png}
