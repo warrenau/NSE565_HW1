@@ -91,7 +91,8 @@ def analytical(num_volumes, tot_length, velocity, density, diffusion, left, righ
     phi : numpy.ndarray
         Solved flux profile.
     """
-    x = np.linspace(0, tot_length, num=num_volumes,endpoint=True)
+    dx = tot_length / num_volumes
+    x = np.linspace(dx/2, tot_length-(dx/2), num=num_volumes,endpoint=True)
     phi = left + (right-left) * (np.exp(density*velocity*x/diffusion)-1)/(np.exp(density*velocity*tot_length/diffusion)-1)
     return phi
 
@@ -136,15 +137,18 @@ for k in range(len(velocity)):
     phi = cds_ss(num_volumes[k], tot_length, velocity[k], density, diffusion, source, left, right)
     phi_exact = analytical(num_volumes[k], tot_length, velocity[k], density, diffusion, left, right)
     error[k] = error_calc(phi_exact,phi)
+    dx = tot_length / num_volumes[k]
     
     
-    x = np.linspace(0, tot_length, num=num_volumes[k])
+    x = np.linspace(dx/2, tot_length-(dx/2), num=num_volumes[k])
 
     plt.rcParams['font.family'] = 'serif'
     plt.rcParams['mathtext.fontset'] = 'dejavuserif'
     plt.figure(facecolor='w', edgecolor='k', dpi=200)
     plt.plot(x, phi, '-k', label='CDS')
     plt.plot(x, phi_exact, '-r', label='Analytical')
+    plt.xlabel('x (m)')
+    plt.ylabel(r'$\phi$')
     plt.figlegend(loc='right', bbox_to_anchor=(0.4,0.2))
     plt.grid(b=True, which='major', axis='both')
     plt.savefig('HW1/plots/graph_case'+str(k+1)+'.png',transparent=True)
