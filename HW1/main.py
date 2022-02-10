@@ -129,6 +129,7 @@ right = 50      # right hand boundary condition
 # define variables
 velocity = np.array([0.1, 2.5, 2.5])
 num_volumes = np.array([5,5,20])
+Pe = np.zeros(len(velocity))
 
 
 error = np.zeros(len(velocity))
@@ -138,6 +139,7 @@ for k in range(len(velocity)):
     phi_exact = analytical(num_volumes[k], tot_length, velocity[k], density, diffusion, left, right)
     error[k] = error_calc(phi_exact,phi)
     dx = tot_length / num_volumes[k]
+    Pe[k] = density * velocity[k] * dx / diffusion
     
     
     x = np.linspace(dx/2, tot_length-(dx/2), num=num_volumes[k])
@@ -156,7 +158,7 @@ for k in range(len(velocity)):
 
 
 
-# generate latex table
+# generate latex table for error
 out_file = open('HW1/tabs/error_tab.tex','w')
 out_file.write(
                 '\\begin{table}[htbp]\n'+
@@ -176,3 +178,21 @@ out_file.write(
 )
 
 
+# generate latex table for Peclet numbers
+out_file = open('HW1/tabs/Pe_tab.tex','w')
+out_file.write(
+                '\\begin{table}[htbp]\n'+
+                '\t \centering\n'+
+                '\t \caption{Peclet number for each case.}\n'+
+                '\t \\begin{tabular}{cc}\n'+
+                '\t\t \\toprule\n'+
+                '\t\t Case & $Pe$ \\\ \n'+
+                '\t\t \midrule \n'+
+                '\t\t 1 & '+str(Pe[0])+' \\\ \n'+
+                '\t\t 2 & '+str(Pe[1])+' \\\ \n'+
+                '\t\t 3 & '+str(Pe[2])+' \\\ \n'+
+                '\t\t \\bottomrule \n'+
+                '\t \end{tabular} \n'+
+                '\t \label{tab:Pe} \n'+
+                '\end{table}'
+)

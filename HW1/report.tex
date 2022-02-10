@@ -95,8 +95,27 @@ We can rewrite this equation as:
     a_{I}\phi_{I-1} + b_{I}\phi_{I} + c_{I}\phi_{I+1} = Q_{I}\:.
     \label{eq:coef}
 \end{equation}
-This equation works for middle nodes, but the edge nodes do not have enough neighbor nodes. 
+This equation works for middle nodes, but the edge nodes do not have enough neighbor nodes. The first node does not have another node to the left of it ($I-1$), so we have to only use the value at the left edge, which is $\phi_{L}$. This gives us:
+\begin{equation}
+    \left[ \left( \frac{\rho \overline{u}}{2} \right)_{i+1} + \frac{3 \Gamma}{\Delta x} \right]\phi_{I} + \left[ \left( \frac{\rho \overline{u}}{2} \right)_{i+1} - \frac{\Gamma}{\Delta x} \right]\phi_{I+1} = \overline{q}_{I}\: \Delta x + \left( \rho \overline{u} \phi \right)_{L} + \frac{2\Gamma}{\Delta x}\phi_L\:,
+    \label{eq:node 1 grouped}
+\end{equation}
+which gives us an equation of the form:
+\begin{equation}
+    b_1 \phi_1 + c_1 \phi_2 = Q_1\:.
+    \label{eq:node 1 coef}
+\end{equation}
+If we do the same on the right side we get:
 
+\begin{equation}
+    \left[ -\left( \frac{\rho \overline{u}}{2} \right)_{i-1} + \frac{3 \Gamma}{\Delta x} \right]\phi_{I-1} + \left[ -\left( \frac{\rho \overline{u}}{2} \right)_{i-1} - \frac{\Gamma}{\Delta x} \right]\phi_{I} = \overline{q}_{I}\: \Delta x - \left( \rho \overline{u} \phi \right)_{R} + \frac{2\Gamma}{\Delta x}\phi_R\:,
+    \label{eq:node N grouped}
+\end{equation}
+and:
+\begin{equation}
+    a_N \phi_{N-1} + b_{N} \phi_N = Q_N\:.
+    \label{eq:node N coef}
+\end{equation}
 
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
@@ -137,6 +156,12 @@ This equation works for middle nodes, but the edge nodes do not have enough neig
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 \section{Discussion}
+We can use the Peclet number to see how stable each solution should be to determine if the solutions perform how we expect them to.
+\begin{equation}
+    Pe = \frac{\rho \overline{u}}{\Gamma / \Delta x}
+\end{equation}
+For this problem, we want $Pe<2$. \Cref{tab:Pe} shows the Peclet numbers for each case. As we can see, the second case does not meet the criteria for stability, so we expect the numerical solution to be unstable. The other two solutions are expected to be stable and they are. Also, the solutions go from a value of 100 on the left towards a value of 50 on the right, which we would expect from the boundary conditions.
+\input{tabs/Pe_tab.tex}
 
 
 \end{document}
