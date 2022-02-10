@@ -31,6 +31,50 @@
 \usepackage[T1]{fontenc}
 
 
+% ----------------- Commands ---------------------%
+\newcommand{\mathcolorbox}[2]{\colorbox{#1}{$\displaystyle #2$}}
+\definecolor{codegreen}{rgb}{0,0.6,0}
+\definecolor{codegray}{rgb}{0.5,0.5,0.5}
+\definecolor{codepurple}{rgb}{0.58,0,0.82}
+\definecolor{backcolour}{rgb}{0.95,0.95,0.92}
+
+% listings stuff for python
+% Default fixed font does not support bold face
+\DeclareFixedFont{\ttb}{T1}{txtt}{bx}{n}{12} % for bold
+\DeclareFixedFont{\ttm}{T1}{txtt}{m}{n}{12}  % for normal
+
+% Custom colors
+%\usepackage{color}
+\definecolor{deepblue}{rgb}{0,0,0.5}
+\definecolor{deepred}{rgb}{0.6,0,0}
+\definecolor{deepgreen}{rgb}{0,0.5,0}
+
+%\usepackage{listings}
+
+% Python style for highlighting
+\newcommand\pythonstyle{\lstset{
+language=Python,
+basicstyle=\ttm,
+morekeywords={self},              % Add keywords here
+keywordstyle=\ttb\color{deepblue},
+emph={MyClass,__init__},          % Custom highlighting
+emphstyle=\ttb\color{deepred},    % Custom highlighting style
+stringstyle=\color{deepgreen},
+commentstyle=\color{codegray},
+backgroundcolor = \color{backcolour},
+breaklines=true,
+numbers=left,
+numberstyle=\small\color{codegray},
+frame=tb,                         % Any extra options here
+showstringspaces=false
+}}
+
+% Python for external files
+\newcommand\pythonexternal[2][]{{
+\pythonstyle
+\lstinputlisting[#1]{#2}}}
+
+
 
 
 % si units stuff
@@ -163,5 +207,9 @@ We can use the Peclet number to see how stable each solution should be to determ
 For this problem, we want $Pe<2$. \Cref{tab:Pe} shows the Peclet numbers for each case. As we can see, the second case does not meet the criteria for stability, so we expect the numerical solution to be unstable. The other two solutions are expected to be stable and they are. Also, the solutions go from a value of 100 on the left towards a value of 50 on the right, which we would expect from the boundary conditions.
 \input{tabs/Pe_tab.tex}
 
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\section{Code}
+\pythonexternal{main.py}
 
 \end{document}
